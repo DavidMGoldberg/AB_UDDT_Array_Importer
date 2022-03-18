@@ -1,16 +1,33 @@
-// CSV_to_l5x.cpp : Defines the entry point for the application.
+//***************************************************************************
 //
-
+//  UDDT_Array_Importer.hpp
+//  
+//  Created by David Goldberg
+//
+//	Description: 
+//
+//***************************************************************************
 #include "CSV_to_l5x.h"
 
 int main()
 {
 	
-	std::string UddtName, ProgramName,TagName, varId, configLine,inputline, name, type,RW, radix, target, specificTarget, L5Kformat;
+	std::string 	UddtName, 
+					ProgramName,
+					TagName, 
+					varId, 
+					configLine,
+					inputline, 
+					name, 
+					type,
+					RW, 
+					radix, target, specificTarget, L5Kformat;
+
 	std::stringstream line;
 	std::ifstream ifs;
 	std::ofstream ofs;
 	float dataElement;
+	
 	unsigned int bitCounter = 0;
 	int dimention = 0;
 	int memberNum=0;
