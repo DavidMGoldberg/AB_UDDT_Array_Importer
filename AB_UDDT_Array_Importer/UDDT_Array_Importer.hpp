@@ -27,9 +27,10 @@ using std::endl;
 typedef struct TagData {
 	std::vector<float> 	float_data;
 	std::vector<int>	int_data;
-	std::vector<bool>	bool_data;
+	std::vecor<std::string> string_data;
 	std::string name;
 	std::string datatype;
+	std::string input_format;
 	std::string RW;
 	std::string radix;
 	std::string target;
