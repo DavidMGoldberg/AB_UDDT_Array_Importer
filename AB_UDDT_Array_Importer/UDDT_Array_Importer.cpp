@@ -1,24 +1,23 @@
 //***************************************************************************
 //
 //  UDDT_Array_Importer.hpp
-//  
+//
 //  Created by David Goldberg
 //
-//	Description: This is the main 
+//  Description: This is the main 
 //
-//***************************************************************************
-#include "CSV_to_l5x.h"
+//***************************************************************************/
+#include "UDDT_Array_Importer.hpp"
 
 int main(int argc, char *argv[])
 {
-	
-	std::string 	UddtName, 
-					ProgramName,
-					TagName, 
-					fileName,
-					target, 
-					specificTarget,
-					inputline;
+	std::string 	UddtName,
+			ProgramName,
+			TagName,
+			fileName,
+			target,
+			specificTarget,
+			inputline;
 
 	std::stringstream 	line,
 						name,
@@ -28,7 +27,6 @@ int main(int argc, char *argv[])
 	std::ifstream ifs;
 	std::ofstream ofs;
 
-	
 	unsigned int bitCounter = 0;
 	int dimention = 0;
 	int memberNum=0;
@@ -47,8 +45,6 @@ int main(int argc, char *argv[])
 	UddtName=argv[2];
 	TagName=argv[3];
 	fileName=argv[4];
-	
-
 
 
 /******************************************************************
@@ -65,7 +61,7 @@ int main(int argc, char *argv[])
 	getline(ifs, inputline);
 	type.clear();
 	type.str(inputline);
-	cout << inputline << endl;	
+	cout << inputline << endl;
 	getline(ifs, inputline);
 	radix.clear();
 	radix.str(inputline);
@@ -74,9 +70,9 @@ int main(int argc, char *argv[])
 	RWN.clear();
 	RWN.str(inputline);
 	cout << inputline << endl;
-	
+
 	while(!(line.rdbuf()->in_avail() == 0))
-	{	
+	{
 		TagData element;
 		name>>element.name;
 		type>>element.datatype;
@@ -84,8 +80,10 @@ int main(int argc, char *argv[])
 		RWN>>element.RW;
 		data.push_back(element);
 	}
-	
-	
+
+	int integerData;
+	std::string stringData;
+	float floatData;
 
 	while (!ifs.eof())
 	{
@@ -93,19 +91,33 @@ int main(int argc, char *argv[])
 		line.clear();
 		line.str(inputline);
 		if (line.rdbuf()->in_avail() == 0)break;
-		for (it = data.begin(); it != data.end(); it++) 
+		for (it = data.begin(); it != data.end(); it++)
 		{
-			
-			
-			line >> dataElement;
-			it->data.push_back(dataElement);
-			cout << it->data.back()<<"\t";
+			if (it->radix=="Decimal")
+			{
+				line >> integerData;
+				it->int_data.push_back(integerData);
+				cout << it->int_data.back()<<"\t";
+			}
+			if (it->radix=="Float" || it->radix=="Exponential")
+			{
+				line>>floatData;
+				it->float_data.push_back(floatData);
+				cout<<it->float_data.back()<<"\t";
+			}
+			else
+			{
+				line>>stringData;
+				it->string_data.push_back(stringData);
+				cout<<it->float_data.back()<<"\t";
+			}
+
 		}
 		cout << endl;
 
 	}
 
-	dimention = data.front().data.size();
+	dimention = data.front().int_data.size() + data.front().float_data.size()+data.front().string_data.size();
 	cout <<"Dimention of the array:  " << dimention<<endl;
 	ifs.close();
 	if (ifs.is_open()) { std::cerr << "input file failed to close\n";		exit(-1); }
@@ -168,6 +180,7 @@ int main(int argc, char *argv[])
 /******************************************************************
 		writing the target.L5X file
 *******************************************************************/
+/*
 	cout << "\n\nWriting to .L5X file\n";
 	ofs.open("target.L5X", std::ofstream::out | std::ofstream::trunc);
 	std::streambuf* coutbuf = cout.rdbuf();
@@ -233,7 +246,8 @@ int main(int argc, char *argv[])
 	//pause exiting the console app so people can look at the output
 	cout << "finished Writing\n\n";
 	cout << "press enter to exit ";
-	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
+*/
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 	return 0;
 }

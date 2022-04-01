@@ -8,7 +8,8 @@
 //
 //***************************************************************************
 
-#pragma once
+#ifndef UDDT_ARRAY_IMPORTER_HPP
+#define UDDT_ARRAY_IMPORTER_HPP
 
 #include <iostream>
 #include <fstream>
@@ -27,7 +28,7 @@ using std::endl;
 typedef struct TagData {
 	std::vector<float> 	float_data;
 	std::vector<int>	int_data;
-	std::vecor<std::string> string_data;
+	std::vector<std::string> string_data;
 	std::string name;
 	std::string datatype;
 	std::string input_format;
@@ -35,4 +36,6 @@ typedef struct TagData {
 	std::string radix;
 	std::string target;
 	unsigned int bit;
-};
+}TagData;
+
+#endif
