@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 /******************************************************************
 		writing the target.L5X file
 *******************************************************************/
-/*
+
 	cout << "\n\nWriting to .L5X file\n";
 	ofs.open("target.L5X", std::ofstream::out | std::ofstream::trunc);
 	std::streambuf* coutbuf = cout.rdbuf();
@@ -230,7 +230,14 @@ int main(int argc, char *argv[])
 		{
 			cout << "<DataValueMember Name=\"" << it->name << "\" DataType=\"" << it->datatype << "\" ";
 			if (it->datatype != "BOOL")cout << "Radix=\"" << it->radix << "\" ";
-			cout << "Value=\"" << it->data[i] << "\"/>" << endl;
+			cout << "Value=\"";
+			//actual data
+			if(it->radix=="Decimal")cout<<it->int_data[i];
+			else if (it->radix=="Float")cout<<std::fixed<<it->float_data[i];
+			else if (it->radix=="Exponential")cout<<std::scientific<<it->float_data[i];
+			else	cout<<it->string_data[i];
+
+			cout<< "\"/>" << endl;
 		}
 
 		cout << "</Structure>\n</Element>" << endl;
@@ -239,15 +246,15 @@ int main(int argc, char *argv[])
 
 	//tail
 	cout << "</Tag>\n</Tags>\n<Routines/>\n</Program>\n</Programs>\n</Controller>\n</RSLogix5000Content>\n";
-	ofs.close();
 
+	ofs.close();
 	//switch back to original Cout buffer
 	cout.rdbuf(coutbuf);
 	//pause exiting the console app so people can look at the output
 	cout << "finished Writing\n\n";
 	cout << "press enter to exit ";
 
-*/
+
 	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 	return 0;
 }
